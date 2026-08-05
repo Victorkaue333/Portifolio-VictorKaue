@@ -15,6 +15,9 @@ export default defineConfig({
     open: true,
   },
   build: {
+    // scripts/prerender-meta.mjs lê dist/.vite/manifest.json para injetar
+    // modulepreload do chunk de cada rota (encurta a cadeia até o LCP).
+    manifest: true,
     rollupOptions: {
       output: {
         manualChunks: {

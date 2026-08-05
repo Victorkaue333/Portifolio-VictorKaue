@@ -1,0 +1,27 @@
+# Victor Kauê — Desenvolvedor Full Stack
+
+> Portfólio de Victor Kauê: desenvolvedor backend/full-stack com foco em Python,
+> Django, APIs REST e sistemas web modernos — da ideia ao deploy.
+
+Site pessoal estático (SPA em React + TypeScript), em PT-BR com versão em EN.
+Conteúdo público: projetos, trajetória profissional, serviços e certificados.
+
+## Páginas
+
+- [Início](https://victor-kaue.vercel.app/): apresentação, resultados e projetos em destaque
+- [Sobre](https://victor-kaue.vercel.app/sobre): trajetória técnica, experiência profissional, formação e stack
+- [Projetos](https://victor-kaue.vercel.app/projetos): sistemas web, APIs REST, dashboards e aplicações
+- [Serviços](https://victor-kaue.vercel.app/servicos): sistemas customizados, desenvolvimento web, APIs e consultoria
+- [Certificados](https://victor-kaue.vercel.app/certificados): certificações e cursos concluídos
+- [Contato](https://victor-kaue.vercel.app/contato): canais de contato para novos projetos
+
+## Links
+
+- [GitHub](https://github.com/Victorkaue333): repositórios e código-fonte dos projetos
+- [LinkedIn](https://www.linkedin.com/in/victor-kaue-419926364/): perfil profissional
+- [Sitemap](https://victor-kaue.vercel.app/sitemap.xml): todas as URLs indexáveis
+
+## Stack principal
+
+- Backend: Python, Django, FastAPI, APIs REST, PostgreSQL, Docker
+- Frontend: React, TypeScript, Vite, Tailwind CSS
