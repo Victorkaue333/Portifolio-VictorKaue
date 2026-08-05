@@ -85,8 +85,8 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.7}>
                 <div className="hero-socials">
-                  <a href="https://github.com/Victorkaue333" target="_blank" rel="noopener noreferrer" className="social-icon github" aria-label="GitHub"><SiGithub size={20} /></a>
-                  <a href="https://linkedin.com/in/victorkaue" target="_blank" rel="noopener noreferrer" className="social-icon linkedin" aria-label="LinkedIn"><FaLinkedin size={20} /></a>
+                  <a href="https://github.com/Victorkaue333" target="_blank" rel="noopener noreferrer" className="social-icon github" aria-label="GitHub"><SiGithub size={20} aria-hidden="true" /></a>
+                  <a href="https://linkedin.com/in/victorkaue" target="_blank" rel="noopener noreferrer" className="social-icon linkedin" aria-label="LinkedIn"><FaLinkedin size={20} aria-hidden="true" /></a>
                   <a href="mailto:kaue.alves.pg@gmail.com" className="social-icon email" aria-label="Email"><FiMail size={20} /></a>
                 </div>
               </Reveal>
@@ -98,7 +98,19 @@ export default function Home() {
               <div className="photo-ring" />
               <div className="photo-ring inner" />
               <div className="glass-overlay" />
-              <img src="/images/eu/victorkaue.webp" alt="Victor Kauê" className="hero-image" width={1024} height={1536} fetchPriority="high" />
+              {/* LCP: variantes + preload injetado no <head> por scripts/prerender-meta.mjs.
+                  Manter src/srcSet/sizes em sincronia com HERO_LCP nesse script. */}
+              <img
+                src="/images/eu/victorkaue-450.webp"
+                srcSet="/images/eu/victorkaue-280.webp 280w, /images/eu/victorkaue-450.webp 450w, /images/eu/victorkaue-560.webp 560w, /images/eu/victorkaue-900.webp 900w"
+                sizes="(max-width: 480px) 65vw, (max-width: 768px) 70vw, 450px"
+                alt="Victor Kauê"
+                className="hero-image"
+                width={900}
+                height={900}
+                fetchPriority="high"
+                decoding="async"
+              />
             </div>
           </div>
         </div>
