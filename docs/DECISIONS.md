@@ -7,6 +7,31 @@ Formato de cada entrada: data · contexto · decisão · alternativas · consequ
 
 ---
 
+## ADR-0007 — Variantes de imagem geradas por `sharp` e commitadas
+
+- **Data:** 2026-07-23
+- **Contexto:** O PageSpeed (mobile) apontava **341 KiB** desperdiçados servindo
+  originais em elementos muito menores — o pior caso era `images/eu/victor.webp`
+  (193,7 KiB, 1080×1920) usado como avatar 28×28 em cada `ProjectCard`. O hero
+  (elemento LCP) também só era descoberto depois de `index.js` → `Home.js`.
+- **Decisão:** Adicionar `sharp` como **devDependency** e o script
+  `scripts/optimize-images.mjs` (`npm run images:optimize`), que gera
+  `<nome>-<largura>.webp` ao lado do original e grava
+  `src/data/image-variants.json`. As variantes são **commitadas**; o build da
+  Vercel não roda o script. `src/utils/imageSrcSet.ts` monta o `srcset` a partir
+  do manifesto — nunca aponta para variante inexistente (o script descarta
+  variantes que ficariam maiores que o original). O `prerender-meta.mjs` passou
+  a injetar `preload` do hero (só em `/`) e `modulepreload` do chunk da rota,
+  lendo `dist/.vite/manifest.json`.
+- **Alternativas consideradas:** Vercel Image Optimization (`/_vercel/image`) —
+  sem dependência nova, mas consome cota e não funciona em `dev`;
+  `vite-imagetools`; redimensionar manualmente.
+- **Consequências:** Repositório carrega ~470 KiB de variantes versionadas e é
+  preciso rodar `npm run images:optimize` ao adicionar/trocar uma capa de
+  projeto (senão ela é servida em tamanho original). Em troca: sem dependência
+  em runtime, sem custo de build na Vercel e o mesmo enquadramento do
+  `object-fit: cover` (crop `centre`).
+
 ## ADR-0006 — Conteúdo de `src/data/` em PT-BR fixo (i18n cobre só a UI)
 
 - **Data:** 2026-07-12

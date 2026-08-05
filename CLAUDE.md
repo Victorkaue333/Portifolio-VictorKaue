@@ -39,6 +39,7 @@ docs/           documentação do projeto
 - `npm run build` — checagem de tipos (`tsc -b`) + build Vite
 - `npm run preview` — serve o build de produção
 - `npm run projects:enrich` — busca READMEs dos repos e gera `src/data/projects.enrichment.json`
+- `npm run images:optimize` — gera variantes responsivas `.webp` + `src/data/image-variants.json` (rodar ao adicionar/trocar capa de projeto; commitar o resultado)
 
 Não há suíte de testes automatizados. "Testar" = `npm run build` passar sem
 erro de tipo + validação visual manual (`dev`/`preview`).
