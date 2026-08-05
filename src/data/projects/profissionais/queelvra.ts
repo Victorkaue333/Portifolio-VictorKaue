@@ -24,7 +24,7 @@ export const queelvra: Project = {
     solucao: 'Desenvolvimento em HTML/CSS puro com animações sutis e foco em copywriting.',
     impacto: 'Aumento significativo na taxa de cliques e conversão de leads qualificados.',
     arquitetura: {
-      frontend: 'HTML5 Sémantico / CSS3 Moderno',
+      frontend: 'HTML5 Semântico / CSS3 Moderno',
       api: 'Integração de formulários via API',
       banco: 'Não aplicável (Página estática)',
     },

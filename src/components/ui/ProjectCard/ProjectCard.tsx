@@ -6,6 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import type { Project } from '../../../types';
 import { TechIcon } from '../TechIcon/TechIcon';
+import { srcFor, srcSetFor } from '../../../utils/imageSrcSet';
 import './ProjectCard.css';
 
 interface ProjectCardProps {
@@ -15,15 +16,15 @@ interface ProjectCardProps {
 
 
 export function ProjectCard({ project, withReveal = true }: ProjectCardProps) {
-  const projectTitle = project.title || 'Projeto em atualizacao';
+  const projectTitle = project.title || 'Projeto em atualização';
   const projectDescription =
-    project.description || project.shortDescription || 'Descricao em atualizacao.';
+    project.description || project.shortDescription || 'Descrição em atualização.';
   const projectTechnologies =
     Array.isArray(project.technologies) && project.technologies.length > 0
       ? project.technologies
       : project.stack && project.stack.length > 0
       ? project.stack
-      : ['Stack em atualizacao'];
+      : ['Stack em atualização'];
   const detailPath = project.detailPath || `/projetos/${project.slug || project.id}`;
   const imageSrc = project.image || '/images/placeholders/project-placeholder.svg';
   const githubUrl = project.github || 'https://github.com/Victorkaue333';
@@ -33,10 +34,16 @@ export function ProjectCard({ project, withReveal = true }: ProjectCardProps) {
       <Link to={detailPath} className="project-card-link">
         <div className="project-image">
           <img
-            src={imageSrc}
+            src={srcFor(imageSrc, 800)}
+            srcSet={srcSetFor(imageSrc)}
+            sizes="(max-width: 768px) 90vw, 380px"
             alt={projectTitle}
+            width={800}
+            height={450}
             loading="lazy"
+            decoding="async"
             onError={(event) => {
+              event.currentTarget.srcset = '';
               event.currentTarget.src = '/images/placeholders/project-placeholder.svg';
             }}
           />
@@ -60,7 +67,16 @@ export function ProjectCard({ project, withReveal = true }: ProjectCardProps) {
           </div>
 
           <div className="project-author">
-            <img src="/images/eu/victor.webp" alt="Victor Kauê" className="author-avatar" width="24" height="24" loading="lazy" decoding="async" />
+            <img
+              src="/images/eu/victor-48.webp"
+              srcSet="/images/eu/victor-48.webp 1x, /images/eu/victor-96.webp 2x"
+              alt="Victor Kauê"
+              className="author-avatar"
+              width="28"
+              height="28"
+              loading="lazy"
+              decoding="async"
+            />
             <span className="author-name">Victor Kauê</span>
           </div>
 

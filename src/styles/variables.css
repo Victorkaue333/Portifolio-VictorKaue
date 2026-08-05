@@ -56,8 +56,12 @@
     --shadow-glow: 0 0 24px rgba(255, 122, 0, 0.2);
 
     /* ─── Tipografia ─── */
-    --font-primary: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    --font-secondary: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    /* Carregadas via <link> no index.html.
+       primary (corpo): Hanken Grotesk 400/500.
+       secondary (títulos/display): Clash Display 600/700 — lookalike livre do
+       ManyChatGravity (proprietário). Clash vai até 700; font-weight 800 herda 700. */
+    --font-primary: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-secondary: 'Clash Display', 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
 
     /* ─── Transições (performance: use transform + opacity) ─── */
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);

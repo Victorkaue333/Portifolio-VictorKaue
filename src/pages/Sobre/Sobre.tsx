@@ -65,10 +65,10 @@ export default function Sobre() {
   const menuItems = [
     { id: 'intro', label: t('about.title'), icon: <FiTarget size={16} /> },
     { id: 'role', label: t('about.highlights.title'), icon: <FiBriefcase size={16} /> },
-    { id: 'experience', label: 'Experiencia', icon: <FiBriefcase size={16} /> },
-    { id: 'education', label: 'Formacao', icon: <FiBookOpen size={16} /> },
+    { id: 'experience', label: 'Experiência', icon: <FiBriefcase size={16} /> },
+    { id: 'education', label: 'Formação', icon: <FiBookOpen size={16} /> },
     { id: 'expertise', label: 'Expertise técnica', icon: <FiCode size={16} /> },
-    { id: 'github', label: 'GitHub', icon: <SiGithub size={16} /> },
+    { id: 'github', label: 'GitHub', icon: <SiGithub size={16} aria-hidden="true" /> },
   ];
 
   const scrollToSection = (id: string) => {
@@ -120,7 +120,7 @@ export default function Sobre() {
                     onClick={() => setLanguage('pt')}
                     aria-pressed={lang === 'pt'}
                   >
-                    Portugues
+                    Português
                   </button>
                 </div>
 
@@ -153,8 +153,8 @@ export default function Sobre() {
               <div className="socials-list">
                 {socialLinks.filter((s) => ['GitHub', 'LinkedIn', 'Email'].includes(s.name)).map((link) => (
                   <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="social-btn">
-                    {link.name === 'GitHub' && <SiGithub size={16} />}
-                    {link.name === 'LinkedIn' && <FaLinkedin size={16} />}
+                    {link.name === 'GitHub' && <SiGithub size={16} aria-hidden="true" />}
+                    {link.name === 'LinkedIn' && <FaLinkedin size={16} aria-hidden="true" />}
                     {link.name === 'Email' && <FiMail size={16} />}
                     {link.name}
                   </a>
@@ -289,7 +289,7 @@ export default function Sobre() {
 
             <section id="github" className="about-content-section reveal-on-scroll">
               <h2 className="section-title">
-                <SiGithub size={24} />
+                <SiGithub size={24} aria-hidden="true" />
                 GitHub Stats
               </h2>
               {!githubStatsError ? (
@@ -319,7 +319,7 @@ export default function Sobre() {
                 <div className="github-fallback-card">
                   <p>Confira minhas atividades diretamente no meu perfil:</p>
                   <Button href="https://github.com/Victorkaue333" variant="outline" external>
-                    <SiGithub size={18} />
+                    <SiGithub size={18} aria-hidden="true" />
                     Ver GitHub
                   </Button>
                 </div>

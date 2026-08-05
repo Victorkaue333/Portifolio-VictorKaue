@@ -28,10 +28,10 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const navLinks = [
-  { label: 'Inicio', path: '/' },
+  { label: 'Início', path: '/' },
   { label: 'Sobre', path: '/sobre' },
   { label: 'Projetos', path: '/projetos' },
-  { label: 'Servicos', path: '/servicos' },
+  { label: 'Serviços', path: '/servicos' },
   { label: 'Certificados', path: '/certificados' },
   { label: 'Contato', path: '/contato' },
 ];
