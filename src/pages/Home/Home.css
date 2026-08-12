@@ -88,7 +88,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0.75rem;
     color: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 /* Cor oficial de cada marca */
@@ -310,7 +310,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 3rem;
     border-radius: 2.5rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     position: relative;
     overflow: hidden;
     height: 100%;

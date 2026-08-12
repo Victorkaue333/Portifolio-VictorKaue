@@ -183,7 +183,7 @@
     font-size: 0.8rem;
     font-weight: 600;
     border-radius: calc(var(--radius-md) - 2px);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
     min-height: auto;
 }
 
@@ -210,7 +210,7 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
     text-align: left;
     width: 100%;
 }
@@ -220,7 +220,7 @@
     height: 6px;
     border-radius: 50%;
     background: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .nav-item:hover {
@@ -264,7 +264,7 @@
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     box-shadow: 0 0 15px rgba(255, 122, 0, 0.05);
 }
 
@@ -305,7 +305,7 @@
     font-size: 0.88rem;
     font-weight: 600;
     color: var(--text-muted-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .social-btn:hover {
@@ -358,7 +358,7 @@
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: 1.75rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -708,7 +708,7 @@
     border-radius: var(--radius-md);
     font-size: 0.88rem;
     color: var(--text-muted-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .tech-tag:hover {
@@ -735,7 +735,7 @@
     backdrop-filter: var(--glass-blur);
     padding: 1.5rem;
     border-radius: var(--radius-xl);
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
 }
 
 .github-card-link:hover {
