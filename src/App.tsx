@@ -1,4 +1,4 @@
-import { lazy, Suspense, type CSSProperties } from 'react';
+import { lazy, Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Layout/Navbar/Navbar';
@@ -19,35 +19,16 @@ const Certificados = lazy(() => import('./pages/Certificados/Certificados'));
 const Contato = lazy(() => import('./pages/Contato/Contato'));
 const NaoEncontrado = lazy(() => import('./pages/NaoEncontrado/NaoEncontrado'));
 
-// Accent (cor) do loader por rota — arc muda de cor conforme a página.
-const ROUTE_ACCENTS: Record<string, string> = {
-  '/': '#ff7a00',            // Home — laranja da marca
-  '/sobre': '#4f9dff',       // Sobre — azul
-  '/projetos': '#a06bff',    // Projetos — roxo
-  '/servicos': '#22c39a',    // Serviços — verde/teal
-  '/certificados': '#ffb020',// Certificados — âmbar
-  '/contato': '#ff5a7a',     // Contato — rosa
-};
-
-function accentFor(pathname: string): string {
-  const seg = pathname === '/' ? '/' : '/' + pathname.split('/')[1];
-  return ROUTE_ACCENTS[seg] ?? '#ff7a00';
-}
-
-function PageLoader({ accent }: { accent: string }) {
+function PageLoader() {
   return (
     <div className="page-loader-wrapper" aria-hidden="true">
-      <div
-        className="nav-loader-arc"
-        style={{ '--loader-accent': accent } as CSSProperties}
-      />
+      <div className="nav-loader-arc" />
     </div>
   );
 }
 
 function AppRoutes() {
   const location = useLocation();
-  const accent = accentFor(location.pathname);
 
   return (
     <>
@@ -60,7 +41,7 @@ function AppRoutes() {
           transition={{ duration: 0.28, ease: 'easeOut' }}
           className="page-motion-wrapper"
         >
-          <Suspense fallback={<PageLoader accent={accent} />}>
+          <Suspense fallback={<PageLoader />}>
             <Routes location={location}>
               <Route path="/" element={<Home />} />
               <Route path="/sobre" element={<Sobre />} />

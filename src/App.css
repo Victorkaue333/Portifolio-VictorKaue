@@ -16,16 +16,14 @@
   min-height: 60vh;
 }
 
-/* Arc do loader — cor (--loader-accent) muda por página, definida em App.tsx */
+/* Arc do loader — cor única da marca (--accent-color) em todas as rotas */
 .nav-loader-arc {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0%, var(--loader-accent, #ff7a00) 100%);
-  -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%);
-  mask: radial-gradient(circle, transparent 56%, #000 57%);
+  border: 3px solid color-mix(in srgb, var(--accent-color) 18%, transparent);
+  border-top-color: var(--accent-color);
   animation: nav-loader-spin 0.9s linear infinite;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--loader-accent, #ff7a00) 45%, transparent));
 }
 
 @keyframes nav-loader-spin {
