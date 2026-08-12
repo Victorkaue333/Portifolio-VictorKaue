@@ -65,8 +65,8 @@ export default function Sobre() {
   const menuItems = [
     { id: 'intro', label: t('about.title'), icon: <FiTarget size={16} /> },
     { id: 'role', label: t('about.highlights.title'), icon: <FiBriefcase size={16} /> },
-    { id: 'experience', label: 'Experiencia', icon: <FiBriefcase size={16} /> },
-    { id: 'education', label: 'Formacao', icon: <FiBookOpen size={16} /> },
+    { id: 'experience', label: 'Experiência', icon: <FiBriefcase size={16} /> },
+    { id: 'education', label: 'Formação', icon: <FiBookOpen size={16} /> },
     { id: 'expertise', label: 'Expertise técnica', icon: <FiCode size={16} /> },
     { id: 'github', label: 'GitHub', icon: <SiGithub size={16} /> },
   ];
@@ -120,7 +120,7 @@ export default function Sobre() {
                     onClick={() => setLanguage('pt')}
                     aria-pressed={lang === 'pt'}
                   >
-                    Portugues
+                    Português
                   </button>
                 </div>
 

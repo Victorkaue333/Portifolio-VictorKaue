@@ -15,15 +15,15 @@ interface ProjectCardProps {
 
 
 export function ProjectCard({ project, withReveal = true }: ProjectCardProps) {
-  const projectTitle = project.title || 'Projeto em atualizacao';
+  const projectTitle = project.title || 'Projeto em atualização';
   const projectDescription =
-    project.description || project.shortDescription || 'Descricao em atualizacao.';
+    project.description || project.shortDescription || 'Descrição em atualização.';
   const projectTechnologies =
     Array.isArray(project.technologies) && project.technologies.length > 0
       ? project.technologies
       : project.stack && project.stack.length > 0
       ? project.stack
-      : ['Stack em atualizacao'];
+      : ['Stack em atualização'];
   const detailPath = project.detailPath || `/projetos/${project.slug || project.id}`;
   const imageSrc = project.image || '/images/placeholders/project-placeholder.svg';
   const githubUrl = project.github || 'https://github.com/Victorkaue333';
