@@ -17,11 +17,22 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-i18n': ['i18next', 'i18next-browser-languagedetector', 'react-i18next'],
-          'vendor-icons': ['react-icons'],
+        // Forma de função: a forma de objeto só casa o módulo raiz do pacote,
+        // deixando `react-dom/client` (e afins) cair no chunk principal.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (/node_modules[\\/](react|react-dom|scheduler|react-router|react-router-dom)[\\/]/.test(id)) {
+            return 'vendor-react';
+          }
+          if (/node_modules[\\/](framer-motion|motion|motion-dom|motion-utils)[\\/]/.test(id)) {
+            return 'vendor-motion';
+          }
+          if (/node_modules[\\/](i18next|react-i18next|i18next-browser-languagedetector)[\\/]/.test(id)) {
+            return 'vendor-i18n';
+          }
+          // react-icons fica de fora de propósito: agrupar tudo num chunk faz
+          // os ícones de todas as rotas carregarem já no primeiro acesso.
+          // Sem regra, o Rollup divide por rota e cada página traz só os seus.
         },
       },
     },
