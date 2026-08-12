@@ -51,9 +51,14 @@
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    animation: borderLight 4s linear infinite;
     pointer-events: none;
     z-index: 1;
+}
+
+/* Só no hover: animar `--border-angle` repinta o conic-gradient e recompõe a
+   máscara a cada quadro, e a grade toda fazia isso em paralelo, para sempre. */
+.service-card:hover::after {
+    animation: borderLight 4s linear infinite;
 }
 
 .service-card.featured {

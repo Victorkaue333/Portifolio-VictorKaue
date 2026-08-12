@@ -157,13 +157,19 @@ p {
 }
 
 /* ========== GRAIN NOISE OVERLAY ========== */
+/* O overlay cobre a viewport + uma folga de 4% para o deslocamento da animação.
+   Antes ele tinha 400% x 400% (16x a tela) e o SVG sem dimensões virava um
+   único bitmap desse tamanho — repintado 10x a cada 8s por cima da página.
+   Agora é um tile de 200px que se repete, então a área rasterizada é fixa. */
 body::after {
     content: '';
     position: fixed;
-    inset: -200%;
-    width: 400%;
-    height: 400%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    inset: -4%;
+    width: 108%;
+    height: 108%;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    background-repeat: repeat;
     opacity: 0.018;
     pointer-events: none;
     z-index: 9998;

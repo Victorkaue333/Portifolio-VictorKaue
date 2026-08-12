@@ -126,7 +126,9 @@
     background: radial-gradient(circle, rgba(255, 122, 0, 0.25) 0%, transparent 70%);
     z-index: 1;
     animation: glowPulse 4s ease-in-out infinite;
-    filter: blur(10px);
+    /* Sem `filter: blur()`: o gradiente radial já desvanece sozinho, e um
+       filtro sobre um elemento com transform animado obriga a re-rasterizar
+       o desfoque a cada quadro. */
 }
 
 
@@ -396,9 +398,14 @@
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    animation: borderLight 4s linear infinite;
     pointer-events: none;
     z-index: 1;
+}
+
+/* Só no hover: animar `--border-angle` repinta o conic-gradient e recompõe a
+   máscara a cada quadro, e a grade toda fazia isso em paralelo, para sempre. */
+.diferencial-card:hover::after {
+    animation: borderLight 4s linear infinite;
 }
 
 .diferencial-card:hover {

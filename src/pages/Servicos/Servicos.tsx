@@ -52,22 +52,32 @@ function ApproachHorizontal() {
     const track = trackRef.current;
     if (!track) return;
 
+    let raf = 0;
+
     const calc = () => {
       const viewport = track.parentElement?.clientWidth ?? 0;
       setDistance(Math.max(0, track.scrollWidth - viewport));
     };
+
+    // Ler `scrollWidth` força um layout síncrono. O ResizeObserver dispara em
+    // rajada durante o arrasto da janela, então junta tudo num quadro só.
+    const scheduleCalc = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(calc);
+    };
+
     calc();
 
-    // Recalcula quando o track muda de tamanho (fontes, resize, i18n).
-    const ro = new ResizeObserver(calc);
+    // O ResizeObserver já cobre resize de janela, troca de fonte e mudança de
+    // idioma — os listeners de `resize`/`load` que existiam aqui só repetiam
+    // o mesmo cálculo, sem throttle.
+    const ro = new ResizeObserver(scheduleCalc);
     ro.observe(track);
     if (track.parentElement) ro.observe(track.parentElement);
-    window.addEventListener('resize', calc);
-    window.addEventListener('load', calc);
+
     return () => {
+      cancelAnimationFrame(raf);
       ro.disconnect();
-      window.removeEventListener('resize', calc);
-      window.removeEventListener('load', calc);
     };
   }, [t]);
 
