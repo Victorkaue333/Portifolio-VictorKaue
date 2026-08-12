@@ -67,9 +67,14 @@ function setMetaContent(html, attr, key, value) {
   return html.replace('</head>', `    ${tag}\n</head>`);
 }
 
+/** Preload da imagem LCP: só faz sentido na Home; nas outras rotas é download morto. */
+function stripHomePreload(html) {
+  return html.replace(/[ \t]*<!-- preload:home -->[\s\S]*?<!-- \/preload:home -->\n?/, '');
+}
+
 function applyMeta(html, { path, title, description }) {
   const url = `${SITE}${path === '/' ? '/' : path}`;
-  let out = html;
+  let out = path === '/' ? html : stripHomePreload(html);
 
   out = out.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
   out = setMetaContent(out, 'name', 'description', description);

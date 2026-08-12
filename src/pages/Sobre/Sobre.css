@@ -743,8 +743,17 @@
     transform: translateY(-4px);
 }
 
+/* Vêm de um serviço de terceiro que costuma levar segundos (ou falhar). Sem
+   proporção reservada, o bloco nascia com altura zero e empurrava a página
+   quando a imagem chegava — CLS puro. */
 .github-img {
     width: 100%;
+    height: auto;
+    aspect-ratio: 495 / 195;
+}
+
+.github-img.top-langs {
+    aspect-ratio: 300 / 165;
 }
 
 .github-fallback-card {

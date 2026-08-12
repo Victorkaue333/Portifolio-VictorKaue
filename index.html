@@ -37,6 +37,13 @@
 
     <title>Victor Kauê | Desenvolvedor Full Stack</title>
 
+    <!-- preload:home -->
+    <!-- Imagem LCP da Home. Sem isto o browser só a descobre depois de baixar e
+         executar o JS (a Home é um chunk lazy). O prerender remove este bloco
+         nas outras rotas — ver scripts/prerender-meta.mjs. -->
+    <link rel="preload" as="image" href="/images/eu/victorkaue.webp" fetchpriority="high" />
+    <!-- /preload:home -->
+
     <link rel="icon" type="image/webp" href="/images/fotos-projetos-pessoais/vk-portifolio/logotipo-vk.webp" />
     <link rel="apple-touch-icon" href="/images/fotos-projetos-pessoais/vk-portifolio/logotipo-vk.webp" />
 
