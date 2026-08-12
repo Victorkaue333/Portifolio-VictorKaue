@@ -1,0 +1,23 @@
+/* ========== REVEAL — entrada ao aparecer na tela ========== */
+/* Só opacity e transform: as duas propriedades que o compositor anima sem
+   repintar. A curva é a mesma que o framer-motion usava antes. */
+.reveal-inner {
+    opacity: 0;
+    transform: translateY(var(--reveal-offset, 75px));
+    transition:
+        opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0.25s),
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0.25s);
+}
+
+.reveal-inner.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-inner {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}

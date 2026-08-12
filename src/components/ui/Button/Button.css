@@ -87,3 +87,20 @@
     transform: translateY(-2px);
     box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
 }
+
+/* Substitui o whileHover/whileTap que vinha do framer-motion. Depois das
+   variantes de propósito: mesma especificidade, então esta regra vence. */
+.btn:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.btn:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn:hover,
+    .btn:active {
+        transform: none;
+    }
+}

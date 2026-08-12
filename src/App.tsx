@@ -1,5 +1,4 @@
-import { lazy, Suspense } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Layout/Navbar/Navbar';
 import { Footer } from './components/Layout/Footer/Footer';
@@ -8,16 +7,17 @@ import ScrollToTop from './components/Layout/ScrollToTop/ScrollToTop';
 import { MobileNavbar } from './components/Layout/Navbar/MobileNavbar';
 import { FirstVisitLoader } from './components/Layout/FirstVisitLoader/FirstVisitLoader';
 import { NavigationLoader } from './components/Layout/NavigationLoader/NavigationLoader';
+import {
+  Home,
+  Sobre,
+  Projetos,
+  ProjetoDetalhe,
+  Servicos,
+  Certificados,
+  Contato,
+  NaoEncontrado,
+} from './routes';
 import './App.css';
-
-const Home = lazy(() => import('./pages/Home/Home'));
-const Sobre = lazy(() => import('./pages/Sobre/Sobre'));
-const Projetos = lazy(() => import('./pages/Projetos/Projetos'));
-const ProjetoDetalhe = lazy(() => import('./pages/ProjetoDetalhe/ProjetoDetalhe'));
-const Servicos = lazy(() => import('./pages/Servicos/Servicos'));
-const Certificados = lazy(() => import('./pages/Certificados/Certificados'));
-const Contato = lazy(() => import('./pages/Contato/Contato'));
-const NaoEncontrado = lazy(() => import('./pages/NaoEncontrado/NaoEncontrado'));
 
 function PageLoader() {
   return (
@@ -33,28 +33,25 @@ function AppRoutes() {
   return (
     <>
       <NavigationLoader />
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={location.pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.28, ease: 'easeOut' }}
-          className="page-motion-wrapper"
-        >
-          <Suspense fallback={<PageLoader />}>
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/sobre" element={<Sobre />} />
-              <Route path="/projetos" element={<Projetos />} />
-              <Route path="/projetos/:id" element={<ProjetoDetalhe />} />
-              <Route path="/servicos" element={<Servicos />} />
-              <Route path="/certificados" element={<Certificados />} />
-              <Route path="/contato" element={<Contato />} />
-              <Route path="*" element={<NaoEncontrado />} />
-            </Routes>
-          </Suspense>
-        </motion.div>
-      </AnimatePresence>
+      {/* A transição de página era `AnimatePresence mode="wait"` + `motion.div`.
+          Isso trazia o framer-motion para o bundle inicial de toda rota e, com
+          `mode="wait"`, ainda segurava a página nova até a antiga terminar de
+          sair — atraso somado ao download do chunk lazy. Trocar a chave
+          remonta o wrapper e o CSS toca `page-enter` sozinho. */}
+      <div key={location.pathname} className="page-motion-wrapper">
+        <Suspense fallback={<PageLoader />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/sobre" element={<Sobre />} />
+            <Route path="/projetos" element={<Projetos />} />
+            <Route path="/projetos/:id" element={<ProjetoDetalhe />} />
+            <Route path="/servicos" element={<Servicos />} />
+            <Route path="/certificados" element={<Certificados />} />
+            <Route path="/contato" element={<Contato />} />
+            <Route path="*" element={<NaoEncontrado />} />
+          </Routes>
+        </Suspense>
+      </div>
     </>
   );
 }

@@ -6,6 +6,19 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  animation: page-enter 0.28s ease-out both;
+}
+
+/* Mesma entrada que o framer-motion fazia (opacity + y de 10px). `both` deixa
+   o transform final em `none`, então o wrapper para de servir de bloco
+   contentor para filhos `position: fixed` assim que a animação acaba. */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-motion-wrapper { animation: none; }
 }
 
 /* Suspense fallback wrapper */

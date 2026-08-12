@@ -39,6 +39,12 @@
     flex-direction: column;
     gap: 0.2rem;
     margin-bottom: 2rem;
+    animation: hero-title-in 0.8s ease-out both;
+}
+
+@keyframes hero-title-in {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: none; }
 }
 
 .hero-title-main span {
@@ -158,11 +164,22 @@
     gap: 0.75rem;
     cursor: pointer;
     z-index: 10;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+    /* `backwards`, não `both`: segura o estado inicial durante o atraso de 1,5s
+       e depois devolve o controle às regras normais — com `both` o transform
+       final da animação ficaria grudado e mataria o :hover abaixo. */
+    animation: scroll-indicator-in 1s ease-out 1.5s backwards;
 }
 
+@keyframes scroll-indicator-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%); }
+}
+
+/* Sobe via transform, não via `bottom`: `bottom` é propriedade de layout e
+   com `transition: all` o navegador recalculava posição a cada quadro do hover. */
 .scroll-indicator-wrapper:hover {
-    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(-0.5rem);
 }
 
 .scroll-mouse {

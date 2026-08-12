@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './Button.css';
-
-const MotionLink = motion.create(Link);
 
 interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
@@ -17,24 +14,24 @@ interface ButtonProps {
   external?: boolean;
 }
 
-export function Button({ 
-  variant = 'primary', 
-  href, 
-  onClick, 
-  children, 
-  className = '', 
-  target, 
-  rel, 
+/**
+ * O hover/tap era feito com `motion` do framer-motion. Como o Button.css já
+ * tinha as mesmas transições em CSS, o JS só duplicava trabalho — e arrastava
+ * o framer para dentro de qualquer página que use um botão. Agora é CSS puro
+ * (ver `.btn:hover` / `.btn:active`).
+ */
+export function Button({
+  variant = 'primary',
+  href,
+  onClick,
+  children,
+  className = '',
+  target,
+  rel,
   type = 'button',
-  external 
+  external
 }: ButtonProps) {
   const cls = `btn btn-${variant} ${className}`.trim();
-
-  const motionProps = {
-    whileHover: { scale: 1.02, y: -2 },
-    whileTap: { scale: 0.98 },
-    transition: { type: "spring", stiffness: 400, damping: 10 } as const
-  };
 
   if (href) {
     const isExternal = external || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
@@ -42,9 +39,9 @@ export function Button({
 
     if (isInternalRoute) {
       return (
-        <MotionLink to={href} className={cls} target={target} rel={rel} {...motionProps}>
+        <Link to={href} className={cls} target={target} rel={rel}>
           {children}
-        </MotionLink>
+        </Link>
       );
     }
 
@@ -52,26 +49,15 @@ export function Button({
     const finalRel = isExternal ? 'noopener noreferrer' : rel;
 
     return (
-      <motion.a
-        href={href}
-        className={cls}
-        target={finalTarget}
-        rel={finalRel}
-        {...motionProps}
-      >
+      <a href={href} className={cls} target={finalTarget} rel={finalRel}>
         {children}
-      </motion.a>
+      </a>
     );
   }
 
   return (
-    <motion.button 
-      className={cls} 
-      onClick={onClick} 
-      type={type}
-      {...motionProps}
-    >
+    <button className={cls} onClick={onClick} type={type}>
       {children}
-    </motion.button>
+    </button>
   );
 }

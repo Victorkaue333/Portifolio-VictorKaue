@@ -12,7 +12,6 @@ import {
 import { FaLinkedin } from 'react-icons/fa6';
 import { SiGithub } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import { featuredProjects } from '../../data/projects';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { useSeo } from '../../hooks/useSeo';
@@ -54,15 +53,13 @@ export default function Home() {
         <FloatingLines />
         <div className="container hero-container">
           <div className="hero-content">
-            <motion.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="hero-title-main"
-            >
+            {/* Entrada em CSS (keyframes `hero-title-in`): era um motion.h1 que
+                só animava na montagem — não valia arrastar o framer-motion
+                inteiro para a página de entrada por causa disso. */}
+            <h1 className="hero-title-main">
               <span className="title-white">{t('hero.role')}</span>
               <span className="title-gray">{t('hero.tech')}</span>
-            </motion.h1>
+            </h1>
 
             <Reveal delay={0.3}>
               <p className="hero-description">
@@ -103,11 +100,8 @@ export default function Home() {
         </div>
 
         {/* Scroll Down Indicator */}
-        <motion.button
+        <button
           type="button"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1 }}
           className="scroll-indicator-wrapper"
           aria-label="Rolar para a próxima seção"
           onClick={() => document.getElementById('servicos')?.scrollIntoView({ behavior: 'smooth' })}
@@ -116,7 +110,7 @@ export default function Home() {
             <div className="scroll-dot" />
           </div>
           <FiChevronDown className="scroll-arrow" />
-        </motion.button>
+        </button>
       </section>
 
       {/* ========== RESULTS STRIP (PRO MAX) ========== */}
