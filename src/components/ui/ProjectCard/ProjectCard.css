@@ -55,11 +55,14 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(4px);
 }
 
+/* O blur fica só no hover: declarado no estado base, cada card da grade
+   mantinha um backdrop ativo mesmo invisível (opacity: 0). */
 .project-card:hover .project-overlay {
     opacity: 1;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
 }
 
 .project-overlay-text {
