@@ -62,7 +62,6 @@ export default function Home() {
             >
               <span className="title-white">{t('hero.role')}</span>
               <span className="title-gray">{t('hero.tech')}</span>
-              <span className="title-orange">{t('hero.subtech')}</span>
             </motion.h1>
 
             <Reveal delay={0.3}>
