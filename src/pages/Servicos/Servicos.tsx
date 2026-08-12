@@ -1,7 +1,19 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { FiArrowRight, FiCheckCircle, FiCpu, FiDatabase, FiLayout, FiMessageCircle, FiPlus } from 'react-icons/fi';
+import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion';
+import {
+  FiArrowRight,
+  FiCheckCircle,
+  FiCode,
+  FiCpu,
+  FiDatabase,
+  FiLayout,
+  FiMessageCircle,
+  FiPenTool,
+  FiPlus,
+  FiSearch,
+  FiSend,
+} from 'react-icons/fi';
 import { Button } from '../../components/ui/Button/Button';
 import { PageHero } from '../../components/ui/PageHero/PageHero';
 import { Reveal } from '../../components/ui/Reveal/Reveal';
@@ -12,15 +24,25 @@ import { useSeo } from '../../hooks/useSeo';
 import { testimonials } from '../../data/testimonials';
 import './Servicos.css';
 
+/** Etapas do processo — o número casa com as chaves `servicos.stepNTitle` / `stepNDesc`. */
+const APPROACH_STEPS = [
+  { n: 1, Icon: FiSearch },
+  { n: 2, Icon: FiPenTool },
+  { n: 3, Icon: FiCode },
+  { n: 4, Icon: FiSend },
+];
+
 /** Seção "Como eu trabalho" — os passos deslizam na horizontal conforme a página rola. */
 function ApproachHorizontal() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
+  const [active, setActive] = useState(0);
 
-  const steps = [1, 2, 3, 4].map((n) => ({
+  const steps = APPROACH_STEPS.map(({ n, Icon }) => ({
     num: `0${n}`,
+    Icon,
     title: t(`servicos.step${n}Title`),
     desc: t(`servicos.step${n}Desc`),
   }));
@@ -55,6 +77,12 @@ function ApproachHorizontal() {
   });
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
 
+  // Etapa em foco = progresso do scroll mapeado nos passos (usado só para destaque visual).
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    const index = Math.round(value * (steps.length - 1));
+    setActive(Math.min(steps.length - 1, Math.max(0, index)));
+  });
+
   return (
     <section
       ref={sectionRef}
@@ -70,13 +98,22 @@ function ApproachHorizontal() {
 
         <div className="approach-viewport">
           <motion.div ref={trackRef} style={{ x }} className="approach-track">
-            {steps.map((step) => (
-              <article key={step.num} className="approach-panel">
-                <span className="approach-num">{step.num}</span>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-              </article>
-            ))}
+            {steps.map((step, i) => {
+              const Icon = step.Icon;
+              return (
+                <article key={step.num} className={`approach-panel ${i === active ? 'is-active' : ''}`}>
+                  <header className="approach-panel-head">
+                    <span className="approach-icon" aria-hidden="true">
+                      <Icon />
+                    </span>
+                    <span className="approach-num" aria-hidden="true">{step.num}</span>
+                  </header>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                  <span className="approach-rule" aria-hidden="true" />
+                </article>
+              );
+            })}
           </motion.div>
         </div>
       </div>

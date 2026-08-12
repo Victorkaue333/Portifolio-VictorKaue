@@ -126,6 +126,15 @@ html.light .approach-panel {
     box-shadow: var(--shadow-sm);
 }
 
+html.light .approach-panel.is-active {
+    border-color: rgba(255, 122, 0, 0.38);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 122, 0, 0.12);
+}
+
+html.light .approach-rule {
+    background: rgba(0, 0, 0, 0.1);
+}
+
 html.light .testimonial-card {
     background: #ffffff;
     border-color: rgba(0, 0, 0, 0.08);
