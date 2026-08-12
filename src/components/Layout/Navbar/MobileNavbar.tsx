@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { FiHome, FiUser, FiBriefcase, FiLayers, FiMail, FiAward } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
+import { prefetchRoute } from '../../../routes';
 import './MobileNavbar.css';
 
 export function MobileNavbar() {
@@ -25,6 +26,10 @@ export function MobileNavbar() {
             end={item.path === '/'}
             className={({ isActive }) => `mobile-nav-item ${isActive ? 'active' : ''}`}
             aria-label={item.label}
+            // Em toque, `pointerdown` chega antes do clique: adianta o download
+            // do chunk pelo tempo que o dedo leva para levantar.
+            onPointerDown={() => prefetchRoute(item.path)}
+            onFocus={() => prefetchRoute(item.path)}
           >
             <span className="mobile-nav-icon">{item.icon}</span>
             <span className="mobile-nav-label">{item.label}</span>
