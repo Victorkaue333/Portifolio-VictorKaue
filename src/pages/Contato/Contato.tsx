@@ -10,7 +10,7 @@ import { useSeo } from '../../hooks/useSeo';
 import type { ContactFormData } from '../../types';
 import './Contato.css';
 
-const WHATSAPP_PHONE = '5587981677005';
+const WHATSAPP_PHONE = '5587981774951';
 
 function buildWhatsAppUrl(data: ContactFormData): string {
   const message = encodeURIComponent(
