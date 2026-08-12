@@ -76,6 +76,7 @@ function ApproachHorizontal() {
     offset: ['start start', 'end end'],
   });
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance]);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   // Etapa em foco = progresso do scroll mapeado nos passos (usado só para destaque visual).
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
@@ -94,6 +95,14 @@ function ApproachHorizontal() {
         <div className="container approach-head">
           <h2 className="section-title">{t('servicos.approachTitle')}</h2>
           <p className="section-subtitle">{t('servicos.approachSubtitle')}</p>
+
+          <div className="approach-progress" aria-hidden="true">
+            <span className="approach-progress-count">{steps[active]?.num ?? '01'}</span>
+            <span className="approach-progress-rail">
+              <motion.span className="approach-progress-fill" style={{ width: progressWidth }} />
+            </span>
+            <span className="approach-progress-total">{`0${steps.length}`}</span>
+          </div>
         </div>
 
         <div className="approach-viewport">

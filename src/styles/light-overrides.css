@@ -131,6 +131,7 @@ html.light .approach-panel.is-active {
     box-shadow: 0 16px 34px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 122, 0, 0.12);
 }
 
+html.light .approach-progress-rail,
 html.light .approach-rule {
     background: rgba(0, 0, 0, 0.1);
 }
