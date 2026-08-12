@@ -147,7 +147,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ images, title 
                 {index === currentIndex && (
                   <motion.div 
                       layoutId="active-indicator"
-                      className="active-piller"
+                      className="active-pillar"
                   />
                 )}
               </button>
