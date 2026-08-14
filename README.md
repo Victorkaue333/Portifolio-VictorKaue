@@ -499,7 +499,7 @@ Convenção de commits: **Conventional Commits** (`feat:`, `fix:`, `docs:`, …)
 [![GitHub](https://img.shields.io/badge/GitHub-Victorkaue333-181717?style=for-the-badge&logo=github)](https://github.com/Victorkaue333)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Victor%20Kaue-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/victor-kaue-419926364/)
 [![Email](https://img.shields.io/badge/Email-kaue.alves.pg%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kaue.alves.pg@gmail.com)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-+55%2087%2098167--7005-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5587981677005)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-+55%2087%2098177--4951-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5587981774951)
 
 ---
 

@@ -3,8 +3,7 @@ import { useScrollPosition } from '../../../hooks/useScrollPosition';
 import './BackToTop.css';
 
 export function BackToTop() {
-  const { scrollY } = useScrollPosition(300);
-  const visible = scrollY > 300;
+  const { scrolled: visible } = useScrollPosition(300);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

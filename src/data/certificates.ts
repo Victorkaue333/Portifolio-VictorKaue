@@ -3,7 +3,7 @@ import { Certificate } from '../types';
 export const certificates: Certificate[] = [
   {
     id: 'wp-oficina',
-    title: 'Desenvolvimento de sites com Wordpress',
+    title: 'Desenvolvimento de sites com WordPress',
     issuer: 'Oficina Workshop',
     category: 'programacao',
     pdf: '/Certificados/pdfs/Oficina_Workshop - Oficina_ Desenvolvimento de sites com Wordpress.pdf',

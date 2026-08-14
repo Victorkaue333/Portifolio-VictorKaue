@@ -54,10 +54,13 @@
     to { --border-angle: 360deg; }
 }
 
-/* ── Glow pulse suave para acentos ── */
+/* ── Glow pulse suave para acentos ──
+   Animava `box-shadow`, que o compositor não sabe interpolar: cada quadro era
+   um repaint. opacity + transform dão o mesmo pulsar na GPU. Use em um
+   elemento decorativo que já tenha o brilho pintado (gradiente ou sombra). */
 @keyframes glowPulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.15), 0 0 60px rgba(245, 158, 11, 0.05); }
-    50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.25), 0 0 80px rgba(245, 158, 11, 0.1); }
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
 }
 
 /* ── Float leve para elementos decorativos ── */
@@ -79,16 +82,19 @@
     100% { background-position: 0% 50%; }
 }
 
-/* ── Noise grain overlay ── */
+/* ── Noise grain overlay ──
+   Deslocamentos pequenos de propósito: o overlay tem 108% da viewport (ver
+   `body::after` em global.css), então ±4% já cobre a borda sem precisar de uma
+   camada gigante. */
 @keyframes grain {
     0%, 100% { transform: translate(0, 0); }
-    10% { transform: translate(-5%, -10%); }
-    20% { transform: translate(-15%, 5%); }
-    30% { transform: translate(7%, -25%); }
-    40% { transform: translate(-5%, 25%); }
-    50% { transform: translate(-15%, 10%); }
-    60% { transform: translate(15%, 0%); }
-    70% { transform: translate(0%, 15%); }
-    80% { transform: translate(3%, 35%); }
-    90% { transform: translate(-10%, 10%); }
+    10% { transform: translate(-1%, -2%); }
+    20% { transform: translate(-3%, 1%); }
+    30% { transform: translate(2%, -4%); }
+    40% { transform: translate(-1%, 4%); }
+    50% { transform: translate(-3%, 2%); }
+    60% { transform: translate(3%, 0%); }
+    70% { transform: translate(0%, 3%); }
+    80% { transform: translate(1%, 4%); }
+    90% { transform: translate(-2%, 2%); }
 }

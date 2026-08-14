@@ -5,9 +5,12 @@
     left: 50%;
     transform: translateX(-50%);
     width: min(1280px, calc(100% - 2rem));
-    background: linear-gradient(135deg, rgba(20, 20, 24, 0.82) 0%, rgba(12, 12, 15, 0.82) 100%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
-    backdrop-filter: blur(18px) saturate(140%);
+    /* Fundo mais opaco + blur menor: a navbar é fixed, então o backdrop é
+       reamostrado a cada quadro de rolagem. `saturate()` saiu porque somava
+       uma segunda passada de filtro para um efeito que o gradiente já dá. */
+    background: linear-gradient(135deg, rgba(20, 20, 24, 0.9) 0%, rgba(12, 12, 15, 0.9) 100%);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     z-index: var(--z-sticky);
     border-radius: 26px;
     border: 1px solid rgba(255, 255, 255, 0.08);

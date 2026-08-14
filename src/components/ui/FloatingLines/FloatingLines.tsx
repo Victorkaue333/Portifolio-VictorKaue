@@ -3,7 +3,8 @@ import React, { useEffect, useRef } from 'react';
 /**
  * Linhas onduladas animadas com brilho (fundo). Reescrito de three.js/R3F
  * para Canvas 2D — mesmo visual, sem o bundle de ~1 MB do WebGL.
- * Respeita prefers-reduced-motion e pausa quando a aba fica oculta.
+ * Respeita prefers-reduced-motion, pausa quando a aba fica oculta e também
+ * quando o Hero sai da tela.
  */
 const LINE_COLOR = '255, 122, 0'; // laranja da marca (rgb)
 
@@ -23,16 +24,29 @@ export const FloatingLines: React.FC = () => {
     // mouse normalizado [0,1], origem no canto inferior-esquerdo (como no shader)
     const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
     let raf = 0;
-    let running = true;
+    let resizeRaf = 0;
+    let visible = true; // Hero na tela
+    let running = false;
     let startTime: number | null = null;
 
     const resize = () => {
+      // Cap no DPR: em telas 3x o custo de preenchimento triplica sem ganho visível.
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    resize();
+
+    // O evento de resize dispara em rajada; coalesce num único quadro.
+    const onResize = () => {
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        resize();
+        if (!running) drawFrame(0); // mantém o quadro estático correto
+      });
+    };
 
     const onPointerMove = (e: PointerEvent) => {
       mouse.tx = e.clientX / window.innerWidth;
@@ -45,12 +59,13 @@ export const FloatingLines: React.FC = () => {
       const isMobile = width <= 768;
       const maxLines = isMobile ? 6 : 10;
       const verticalScale = isMobile ? 0.18 : 0.12;
+      const coreWidth = isMobile ? 1 : 1.4;
 
       mouse.x += (mouse.tx - mouse.x) * 0.05;
       mouse.y += (mouse.ty - mouse.y) * 0.05;
 
       ctx.lineCap = 'round';
-      ctx.shadowColor = `rgba(${LINE_COLOR}, 0.9)`;
+      ctx.lineJoin = 'round';
 
       const step = Math.max(4, Math.round(width / 220));
 
@@ -59,7 +74,8 @@ export const FloatingLines: React.FC = () => {
         const offset = (i - maxLines * 0.5) * verticalScale;
         const alpha = Math.min(0.5, 0.55 / i);
 
-        ctx.beginPath();
+        // A geometria é calculada uma vez e reaproveitada nas duas passadas.
+        const path = new Path2D();
         for (let px = 0; px <= width; px += step) {
           const stx = px / width;
           const posx = stx * aspect;
@@ -73,15 +89,21 @@ export const FloatingLines: React.FC = () => {
 
           const yNorm = lineY + bend;
           const pyPixel = (1 - yNorm) * height;
-          if (px === 0) ctx.moveTo(px, pyPixel);
-          else ctx.lineTo(px, pyPixel);
+          if (px === 0) path.moveTo(px, pyPixel);
+          else path.lineTo(px, pyPixel);
         }
+
+        // Brilho por sobreposição em vez de `shadowBlur`: o blur gaussiano do
+        // Canvas 2D roda na CPU e era o gargalo do Hero. Duas passadas de
+        // espessura diferente dão a mesma queda suave por uma fração do custo.
+        ctx.strokeStyle = `rgba(${LINE_COLOR}, ${alpha * 0.22})`;
+        ctx.lineWidth = coreWidth * 5;
+        ctx.stroke(path);
+
         ctx.strokeStyle = `rgba(${LINE_COLOR}, ${alpha})`;
-        ctx.lineWidth = isMobile ? 1 : 1.4;
-        ctx.shadowBlur = isMobile ? 8 : 12;
-        ctx.stroke();
+        ctx.lineWidth = coreWidth;
+        ctx.stroke(path);
       }
-      ctx.shadowBlur = 0;
     };
 
     const loop = (now: number) => {
@@ -91,30 +113,54 @@ export const FloatingLines: React.FC = () => {
       raf = requestAnimationFrame(loop);
     };
 
-    const onVisibility = () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(raf);
-      } else if (!reduceMotion) {
-        running = true;
-        raf = requestAnimationFrame(loop);
-      }
+    const start = () => {
+      if (running || reduceMotion) return;
+      running = true;
+      raf = requestAnimationFrame(loop);
     };
 
-    window.addEventListener('resize', resize);
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+
+    const sync = () => {
+      if (visible && !document.hidden) start();
+      else stop();
+    };
+
+    const onVisibility = sync;
+
+    // Hero fora da tela = nenhum quadro. Antes o loop rodava a página inteira.
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[entries.length - 1];
+        if (!entry) return;
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0 }
+    );
+    io.observe(canvas);
+
+    resize();
+    window.addEventListener('resize', onResize);
     document.addEventListener('visibilitychange', onVisibility);
+    if (!reduceMotion) {
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+    }
 
     if (reduceMotion) {
       drawFrame(0); // um quadro estático
     } else {
-      raf = requestAnimationFrame(loop);
+      start();
     }
 
     return () => {
-      running = false;
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
+      stop();
+      cancelAnimationFrame(resizeRaf);
+      io.disconnect();
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('visibilitychange', onVisibility);
     };

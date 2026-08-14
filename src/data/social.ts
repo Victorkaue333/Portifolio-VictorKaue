@@ -23,7 +23,7 @@ export const socialLinks: SocialLink[] = [
     name: 'WhatsApp',
     url: 'https://wa.me/5587981774951',
     icon: 'whatsapp',
-    detail: '(87) 98167-7005',
+    detail: '(87) 98177-4951',
   },
 ];
 

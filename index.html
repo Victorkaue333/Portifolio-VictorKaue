@@ -11,17 +11,6 @@
         }
       } catch (e) {}
     </script>
-    <!-- Fontes: Hanken Grotesk (corpo) + Clash Display (títulos). preconnect encurta o handshake. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
-    />
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" />
-
     <meta name="description" content="Portfólio de Victor Kauê, desenvolvedor backend/full-stack com foco em Python, Django, APIs e sistemas web." />
     <meta name="author" content="Victor Kauê" />
     <meta name="theme-color" content="#0a0a12" />
@@ -48,9 +37,15 @@
 
     <title>Victor Kauê | Desenvolvedor Full Stack</title>
 
-    <link rel="icon" type="image/webp" sizes="32x32" href="/favicon-32.webp" />
-    <link rel="icon" type="image/webp" sizes="64x64" href="/favicon-64.webp" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png" />
+    <!-- preload:home -->
+    <!-- Imagem LCP da Home. Sem isto o browser só a descobre depois de baixar e
+         executar o JS (a Home é um chunk lazy). O prerender remove este bloco
+         nas outras rotas — ver scripts/prerender-meta.mjs. -->
+    <link rel="preload" as="image" href="/images/eu/victorkaue.webp" fetchpriority="high" />
+    <!-- /preload:home -->
+
+    <link rel="icon" type="image/webp" href="/images/fotos-projetos-pessoais/vk-portifolio/logotipo-vk.webp" />
+    <link rel="apple-touch-icon" href="/images/fotos-projetos-pessoais/vk-portifolio/logotipo-vk.webp" />
 
     <script type="application/ld+json">
     {

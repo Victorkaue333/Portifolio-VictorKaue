@@ -6,6 +6,19 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  animation: page-enter 0.28s ease-out both;
+}
+
+/* Mesma entrada que o framer-motion fazia (opacity + y de 10px). `both` deixa
+   o transform final em `none`, então o wrapper para de servir de bloco
+   contentor para filhos `position: fixed` assim que a animação acaba. */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-motion-wrapper { animation: none; }
 }
 
 /* Suspense fallback wrapper */
@@ -16,16 +29,14 @@
   min-height: 60vh;
 }
 
-/* Arc do loader — cor (--loader-accent) muda por página, definida em App.tsx */
+/* Arc do loader — cor única da marca (--accent-color) em todas as rotas */
 .nav-loader-arc {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0%, var(--loader-accent, #ff7a00) 100%);
-  -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%);
-  mask: radial-gradient(circle, transparent 56%, #000 57%);
+  border: 3px solid color-mix(in srgb, var(--accent-color) 18%, transparent);
+  border-top-color: var(--accent-color);
   animation: nav-loader-spin 0.9s linear infinite;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--loader-accent, #ff7a00) 45%, transparent));
 }
 
 @keyframes nav-loader-spin {

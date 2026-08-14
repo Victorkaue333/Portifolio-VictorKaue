@@ -126,7 +126,9 @@
     background: radial-gradient(circle, rgba(255, 122, 0, 0.25) 0%, transparent 70%);
     z-index: 1;
     animation: glowPulse 4s ease-in-out infinite;
-    filter: blur(10px);
+    /* Sem `filter: blur()`: o gradiente radial já desvanece sozinho, e um
+       filtro sobre um elemento com transform animado obriga a re-rasterizar
+       o desfoque a cada quadro. */
 }
 
 
@@ -181,7 +183,7 @@
     font-size: 0.8rem;
     font-weight: 600;
     border-radius: calc(var(--radius-md) - 2px);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
     min-height: auto;
 }
 
@@ -208,7 +210,7 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
     text-align: left;
     width: 100%;
 }
@@ -218,7 +220,7 @@
     height: 6px;
     border-radius: 50%;
     background: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .nav-item:hover {
@@ -262,7 +264,7 @@
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     box-shadow: 0 0 15px rgba(255, 122, 0, 0.05);
 }
 
@@ -303,7 +305,7 @@
     font-size: 0.88rem;
     font-weight: 600;
     color: var(--text-muted-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .social-btn:hover {
@@ -356,7 +358,7 @@
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: 1.75rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -396,9 +398,14 @@
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    animation: borderLight 4s linear infinite;
     pointer-events: none;
     z-index: 1;
+}
+
+/* Só no hover: animar `--border-angle` repinta o conic-gradient e recompõe a
+   máscara a cada quadro, e a grade toda fazia isso em paralelo, para sempre. */
+.diferencial-card:hover::after {
+    animation: borderLight 4s linear infinite;
 }
 
 .diferencial-card:hover {
@@ -701,7 +708,7 @@
     border-radius: var(--radius-md);
     font-size: 0.88rem;
     color: var(--text-muted-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 .tech-tag:hover {
@@ -728,7 +735,7 @@
     backdrop-filter: var(--glass-blur);
     padding: 1.5rem;
     border-radius: var(--radius-xl);
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
 }
 
 .github-card-link:hover {
@@ -736,8 +743,17 @@
     transform: translateY(-4px);
 }
 
+/* Vêm de um serviço de terceiro que costuma levar segundos (ou falhar). Sem
+   proporção reservada, o bloco nascia com altura zero e empurrava a página
+   quando a imagem chegava — CLS puro. */
 .github-img {
     width: 100%;
+    height: auto;
+    aspect-ratio: 495 / 195;
+}
+
+.github-img.top-langs {
+    aspect-ratio: 300 / 165;
 }
 
 .github-fallback-card {

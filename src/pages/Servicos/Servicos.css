@@ -51,9 +51,14 @@
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    animation: borderLight 4s linear infinite;
     pointer-events: none;
     z-index: 1;
+}
+
+/* Só no hover: animar `--border-angle` repinta o conic-gradient e recompõe a
+   máscara a cada quadro, e a grade toda fazia isso em paralelo, para sempre. */
+.service-card:hover::after {
+    animation: borderLight 4s linear infinite;
 }
 
 .service-card.featured {
@@ -122,40 +127,114 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2.5rem;
+    gap: clamp(1.5rem, 4vh, 2.75rem);
     overflow: hidden;
 }
 
 .approach-head {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Indicador de progresso do trilho horizontal */
+.approach-progress {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    width: min(340px, 72vw);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted-color);
+}
+
+.approach-progress-count {
+    color: var(--color-primary-500);
+}
+
+.approach-progress-rail {
+    position: relative;
+    flex: 1;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+}
+
+.approach-progress-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-primary-600), var(--color-primary-400));
 }
 
 .approach-viewport {
     width: 100%;
     overflow: hidden;
-    padding: 0 clamp(1.25rem, 8vw, 10rem);
+    padding: 1rem clamp(1.25rem, 8vw, 10rem);
+    /* Bordas esmaecidas: o painel cortado no fim do trilho vira dica de "tem mais". */
+    -webkit-mask-image: linear-gradient(
+        90deg,
+        transparent 0,
+        #000 clamp(1rem, 6vw, 7rem),
+        #000 calc(100% - clamp(1rem, 6vw, 7rem)),
+        transparent 100%
+    );
+            mask-image: linear-gradient(
+        90deg,
+        transparent 0,
+        #000 clamp(1rem, 6vw, 7rem),
+        #000 calc(100% - clamp(1rem, 6vw, 7rem)),
+        transparent 100%
+    );
 }
 
 .approach-track {
+    position: relative;
     display: flex;
+    align-items: stretch;
     gap: 1.75rem;
     width: max-content;
     will-change: transform;
 }
 
+/* Linha tracejada que costura os passos (só aparece nos vãos entre painéis) */
+.approach-track::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed rgba(255, 122, 0, 0.3);
+    pointer-events: none;
+}
+
 .approach-panel {
     position: relative;
     flex: 0 0 auto;
-    width: clamp(300px, 44vw, 640px);
-    min-height: 340px;
-    padding: 2.75rem;
+    width: clamp(280px, 34vw, 460px);
+    min-height: clamp(260px, 38vh, 340px);
+    padding: 2.25rem 2rem;
     border-radius: 1.75rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: linear-gradient(155deg, #161616, #0a0a0a);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     overflow: hidden;
+    opacity: 0.5;
+    transform: scale(0.97);
+    transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+}
+
+.approach-panel.is-active {
+    opacity: 1;
+    transform: none;
+    border-color: rgba(255, 122, 0, 0.38);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5), 0 0 32px rgba(255, 122, 0, 0.1);
 }
 
 .approach-panel::before {
@@ -166,14 +245,44 @@
     pointer-events: none;
 }
 
+.approach-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.approach-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    color: var(--color-primary-400);
+    border: 1px solid rgba(255, 122, 0, 0.28);
+    background: rgba(255, 122, 0, 0.08);
+    transition: background var(--transition-normal), border-color var(--transition-normal);
+}
+
+.approach-panel.is-active .approach-icon {
+    background: rgba(255, 122, 0, 0.16);
+    border-color: rgba(255, 122, 0, 0.5);
+}
+
 .approach-num {
-    display: block;
-    font-size: 3.25rem;
+    font-size: 3rem;
     font-weight: 800;
     line-height: 1;
-    margin-bottom: 1rem;
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 122, 0, 0.6);
+    -webkit-text-stroke: 1.5px rgba(255, 122, 0, 0.4);
+    transition: -webkit-text-stroke-color var(--transition-normal);
+}
+
+.approach-panel.is-active .approach-num {
+    -webkit-text-stroke-color: rgba(255, 122, 0, 0.8);
 }
 
 .approach-panel h3 {
@@ -184,6 +293,30 @@
 .approach-panel p {
     color: var(--text-muted-color);
     line-height: 1.65;
+}
+
+/* Régua no rodapé do painel: preenche quando a etapa está em foco */
+.approach-rule {
+    position: relative;
+    margin-top: auto;
+    height: 2px;
+    width: 100%;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.approach-rule::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-primary-500), rgba(255, 122, 0, 0));
+    transition: width 0.6s ease;
+}
+
+.approach-panel.is-active .approach-rule::after {
+    width: 100%;
 }
 
 /* ========== Faixa de tecnologias ========== */
@@ -410,11 +543,18 @@
         padding: 1rem 0;
     }
 
+    /* Sem pin, o progresso do scroll não representa o trilho — indicador sai. */
+    .approach-progress {
+        display: none;
+    }
+
     .approach-viewport {
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         padding: 0.5rem 1.25rem 1.25rem;
+        -webkit-mask-image: none;
+                mask-image: none;
     }
 
     .approach-viewport::-webkit-scrollbar {
@@ -425,9 +565,27 @@
         transform: none !important;
     }
 
+    /* Swipe nativo: todos os painéis ficam legíveis, sem estado "em foco". */
     .approach-panel {
         scroll-snap-align: center;
-        min-height: 260px;
+        min-height: 250px;
+        width: min(84vw, 380px);
+        opacity: 1;
+        transform: none;
+    }
+
+    .approach-panel.is-active {
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow: none;
+    }
+
+    .approach-num,
+    .approach-panel.is-active .approach-num {
+        -webkit-text-stroke-color: rgba(255, 122, 0, 0.6);
+    }
+
+    .approach-rule::after {
+        width: 100%;
     }
 
     .cta-panel {

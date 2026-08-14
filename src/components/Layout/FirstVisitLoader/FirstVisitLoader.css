@@ -14,14 +14,13 @@
   pointer-events: none;
 }
 
-/* Gradient arc spinner — conic gradient masked into a ring */
+/* Spinner de cor única — anel com um só tom (laranja da marca) */
 .fvl-arc {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0%, #ff7a00 100%);
-  -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%);
-  mask: radial-gradient(circle, transparent 56%, #000 57%);
+  border: 3px solid rgba(255, 122, 0, 0.18);
+  border-top-color: #ff7a00;
   animation: fvl-spin 1s linear infinite;
 }
 

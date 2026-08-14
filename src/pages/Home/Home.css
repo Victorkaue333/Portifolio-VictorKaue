@@ -39,6 +39,12 @@
     flex-direction: column;
     gap: 0.2rem;
     margin-bottom: 2rem;
+    animation: hero-title-in 0.8s ease-out both;
+}
+
+@keyframes hero-title-in {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: none; }
 }
 
 .hero-title-main span {
@@ -52,14 +58,6 @@
 
 .title-white { color: #ffffff; }
 .title-gray { color: #808080; }
-.hero-title-main span.title-orange {
-    color: #ff7a00;
-    text-shadow: 0 0 30px rgba(255, 122, 0, 0.25);
-    font-size: clamp(1.4rem, 5vw, 3rem);
-    letter-spacing: -0.03em;
-    margin-top: 0.35rem;
-    white-space: nowrap;
-}
 
 .hero-description {
     font-size: 1.15rem;
@@ -90,7 +88,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0.75rem;
     color: var(--text-dim-color);
-    transition: all var(--transition-fast);
+    transition: var(--transition-ui-fast);
 }
 
 /* Cor oficial de cada marca */
@@ -166,11 +164,22 @@
     gap: 0.75rem;
     cursor: pointer;
     z-index: 10;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+    /* `backwards`, não `both`: segura o estado inicial durante o atraso de 1,5s
+       e depois devolve o controle às regras normais — com `both` o transform
+       final da animação ficaria grudado e mataria o :hover abaixo. */
+    animation: scroll-indicator-in 1s ease-out 1.5s backwards;
 }
 
+@keyframes scroll-indicator-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    to { opacity: 1; transform: translateX(-50%); }
+}
+
+/* Sobe via transform, não via `bottom`: `bottom` é propriedade de layout e
+   com `transition: all` o navegador recalculava posição a cada quadro do hover. */
 .scroll-indicator-wrapper:hover {
-    bottom: 1.5rem;
+    transform: translateX(-50%) translateY(-0.5rem);
 }
 
 .scroll-mouse {
@@ -301,7 +310,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 3rem;
     border-radius: 2.5rem;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     position: relative;
     overflow: hidden;
     height: 100%;
@@ -336,9 +345,16 @@
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    animation: borderLight 4s linear infinite;
     pointer-events: none;
     z-index: 1;
+}
+
+/* A luz só gira no hover. Animar `--border-angle` repinta o conic-gradient e
+   refaz a máscara a cada quadro — com a grade inteira animando de uma vez,
+   isso rodava sem parar mesmo com os cards parados ou fora da tela. Parado,
+   o gradiente segue desenhando o brilho no canto (--border-angle: 0deg). */
+.service-pro-card:hover::after {
+    animation: borderLight 4s linear infinite;
 }
 
 .service-pro-card:hover {
@@ -528,12 +544,6 @@
         word-break: break-word; /* Essential fallback */
         overflow-wrap: break-word;
         hyphens: auto;
-    }
-
-    .hero-title-main span.title-orange {
-        font-size: clamp(1.05rem, 6vw, 1.7rem);
-        white-space: normal;
-        margin-top: 0.2rem;
     }
 
     .hero-description {

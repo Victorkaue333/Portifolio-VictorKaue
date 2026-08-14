@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fi';
 import { Link, NavLink } from 'react-router-dom';
 import { navLinks } from '../../../data/social';
+import { prefetchRoute } from '../../../routes';
 import { useLanguage } from '../../../hooks/useLanguage';
 import { useScrollPosition } from '../../../hooks/useScrollPosition';
 import { useTheme } from '../../../theme/ThemeProvider';
@@ -59,7 +60,15 @@ export function Navbar() {
 
               return (
                 <li key={link.path}>
-                  <NavLink to={link.path} end={link.path === '/'} className={({ isActive }) => (isActive ? 'active' : '')}>
+                  <NavLink
+                    to={link.path}
+                    end={link.path === '/'}
+                    className={({ isActive }) => (isActive ? 'active' : '')}
+                    // Começa a baixar o chunk da rota no hover/foco, antes do
+                    // clique — senão a espera pela rede vira tela de loader.
+                    onMouseEnter={() => prefetchRoute(link.path)}
+                    onFocus={() => prefetchRoute(link.path)}
+                  >
                     <Icon size={15} aria-hidden="true" />
                     <span>{label}</span>
                   </NavLink>

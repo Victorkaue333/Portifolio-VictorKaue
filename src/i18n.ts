@@ -22,7 +22,6 @@ const resources = {
       hero: {
         role: 'Developer',
         tech: 'Full Stack',
-        subtech: 'From Idea to Deploy',
         description:
           'Focus on performance and maintenance. I deliver reliable software for critical processes, from business rules to production deployment.',
         cta: 'Meet my journey',
@@ -227,7 +226,6 @@ const resources = {
       hero: {
         role: 'Desenvolvedor',
         tech: 'Full Stack',
-        subtech: 'Da Ideia ao Deploy',
         description:
           'Foco em performance e manutenção. Entrego software confiável para processos críticos, da regra de negócio ao deploy em produção.',
         cta: 'Conheça minha jornada',

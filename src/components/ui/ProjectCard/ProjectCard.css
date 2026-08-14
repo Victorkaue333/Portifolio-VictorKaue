@@ -4,7 +4,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 1.5rem;
     overflow: hidden;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -55,11 +55,14 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    backdrop-filter: blur(4px);
 }
 
+/* O blur fica só no hover: declarado no estado base, cada card da grade
+   mantinha um backdrop ativo mesmo invisível (opacity: 0). */
 .project-card:hover .project-overlay {
     opacity: 1;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
 }
 
 .project-overlay-text {
@@ -120,7 +123,7 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 0.75rem;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .project-tag-icon-wrapper:hover {

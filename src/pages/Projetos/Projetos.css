@@ -81,7 +81,7 @@
     font-weight: 600;
     font-size: 0.88rem;
     cursor: pointer;
-    transition: all var(--transition-normal);
+    transition: var(--transition-ui-normal);
 }
 
 .filter-btn:hover {
